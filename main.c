@@ -8,7 +8,7 @@
 
 void ecrireFichier(const char *nom, int points){
     FILE *fichier = fopen("scores.txt", "a");
-    fprintf(fichier, "%s a eu %d\n", nom, points);
+    fprintf(fichier, "%s %d\n", nom, points);
     fclose(fichier);
 }
 
@@ -20,7 +20,7 @@ int lireFichier(const char *nom){
     while (fgets(ligne, 256, fichier)){
         char nomLigne[50];
         int pointsLigne;
-        if (sscanf(ligne, "%s a eu %d", nomLigne, &pointsLigne) == 2){ //Regarde si on a bien deux element qui correspondent a se formatage
+        if (sscanf(ligne, "%s %d", nomLigne, &pointsLigne) == 2){ //Regarde si on a bien deux element qui correspondent a se formatage
             if (strcmp(nom, nomLigne) == 0) { //Si c'est le bon nom
                 points = pointsLigne;
             }
@@ -222,6 +222,39 @@ int division(){
     }
 }
 
+int duree(){
+    int min,sec,reponse;
+    int essais = 1;
+    int trouve = 0;
+    srand(time(NULL));
+    min = ((rand() % 10) + 1);
+    sec = (rand() % 60);
+
+    while ((essais < 4) && (trouve == 0)){
+        printf("Converti en seconde %d min %d sec ", min, sec);
+        scanf("%d", &reponse);
+
+        if (reponse = ((min*60) + sec)){
+            trouve = 1;
+            printf("Bravo !\n");
+        } else{
+            if (essais != 3){
+                printf("Reessaye !\n");
+            } essais ++;
+        } 
+    }
+    if (essais == 1){
+        return 10;
+    } else if (essais == 2){
+        return 5;
+    } else if (essais == 3){
+        return 1;
+    } else {
+        printf("Dommage ! \n");
+        return 0;
+    }
+}
+
 //--------------------------------------------Lancement du jeu--------------------------------------------//
 
 void main(){
@@ -241,6 +274,7 @@ void main(){
         printf("|3 : Multiplication                 |\n");
         printf("|4 : Tables de Multiplication       |\n");
         printf("|5 : Division                       |\n");
+        printf("|6 : Duree                          |\n");
         printf("|0 : Sortir du jeu                  |\n");
         printf("+-----------------------------------+\n");
 
@@ -268,6 +302,10 @@ void main(){
 
         case 5:
             points += division();
+            break;
+
+        case 6:
+            points += duree();
             break;
         
         default:
