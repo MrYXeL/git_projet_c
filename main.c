@@ -255,19 +255,11 @@ int duree(){
     }
 }
 
-//--------------------------------------------Lancement du jeu--------------------------------------------//
+int maths(){
 
-void main(){
-
-    char nom[50];
-    printf("Quels est votre nom : ");
-    scanf("%s", nom);
-
-
-    int points = lireFichier(nom);
-    int choix = 9;
+    int points = 0;
+    int choix = -1;
     while (choix != 0){
-        printf("\n\n        Vous avez %d points         \n", points);
         printf("\n+-----------------------------------+\n");
         printf("|1 : Addition                       |\n");
         printf("|2 : Soustraction                   |\n");
@@ -309,9 +301,118 @@ void main(){
             break;
         
         default:
+            return points;
             break;
         }
     }
+}
 
+//-----------------------------------------------Mini Jeux------------------------------------------------//
+
+int pfs(){
+
+    printf("\nSi vous gagnez, vous gagnez 2 points, si vous faites égalité vous gagnez un point\n");
+
+    //Ordinateur
+    int o;
+    srand(time(NULL));
+    o = (rand() % 3) + 1;
+
+    //Joueur
+    int choix = -1;
+    printf("\n1 : Pierre");
+    printf("\n2 : Feuille");
+    printf("\n3 : Ciseaux\n");
+    scanf("%d", &choix);
+
+    if (choix == o){
+        printf("Egalite !\n");
+        return 1;
+    } else if ((choix == 1) && (o == 2)){
+        printf("Perdu !\n");
+        return 0;
+    } else if ((choix == 1) && (o == 3)){
+        printf("Gagne !\n");
+        return 3;
+    } else if ((choix == 2) && (o == 1)){
+        printf("Gagne !\n");
+        return 3;
+    } else if ((choix == 2) && (o == 3)){
+        printf("Perdu !\n");
+        return 0;
+    } else if ((choix == 3) && (o == 1)){
+        printf("Perdu !\n");
+        return 0;
+    } else if ((choix == 3) && (o == 2)){
+        printf("Gagne !\n");
+        return 3;
+    }
+}
+
+int jeu(){
+
+    int points = 0;
+    int choix = -1;
+    while (choix != 0){
+        printf("\n+-----------------------------------+\n");
+        printf("|1 : Pierre Feuille Ciseaux         |\n");
+        printf("|0 : Sortir du jeu                  |\n");
+        printf("+-----------------------------------+\n");
+
+        printf("Votre choix : ");
+        scanf("%d", &choix);
+
+
+        switch (choix)
+        {
+        case 1:
+            points += pfs();
+            break;
+
+        default:
+            return points;
+            break;
+        }
+    }  
+}
+
+//--------------------------------------------Lancement du jeu--------------------------------------------//
+
+void main(){
+
+    char nom[50];
+    printf("Quels est votre nom : ");
+    scanf("%s", nom);
+
+
+    int points = lireFichier(nom);
+    int choix = -1;
+    while (choix != 0){
+        printf("\n\n        Vous avez %d points         \n", points);
+        printf("\n+-----------------------------------+\n");
+        printf("|1 : Maths                          |\n");
+        printf("|2 : Mini Jeu                       |\n");
+        printf("|0 : Sortir du jeu                  |\n");
+        printf("+-----------------------------------+\n");
+
+        printf("Votre choix : ");
+        scanf("%d", &choix);
+
+
+        switch (choix)
+        {
+        case 1:
+            points += maths();
+            break;
+        
+        case 2:
+            points += jeu();
+            break;
+
+        default:
+            break;
+        }
+    }
     ecrireFichier(nom, points);
 }
+
